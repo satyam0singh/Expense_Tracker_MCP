@@ -108,7 +108,7 @@ class BudgetService(BaseService):
             month=month,
             budget_amount=data.budget_amount,
             spent_amount=spent_amount,
-            currency=data.currency.value,
+            currency=data.currency,
         )
 
         # 5. Audit

@@ -87,8 +87,8 @@ class ExpenseService(BaseService):
             "user_id": user_id,
             "category_id": category_id,
             "subcategory_id": subcategory_id,
-            "currency": data.currency.value,
-            "payment_method": data.payment_method.value,
+            "currency": data.currency,
+            "payment_method": data.payment_method,
         })
 
         # 3. Create expense

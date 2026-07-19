@@ -13,8 +13,9 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Index, String, func
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import DateTime, ForeignKey, Index, String, func, JSON
+from sqlalchemy import Uuid as UUID
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from expense_tracker.database.base import Base, UUIDMixin
@@ -61,7 +62,7 @@ class AuditLog(UUIDMixin, Base):
         nullable=False,
     )
     changes: Mapped[dict | None] = mapped_column(  # type: ignore[type-arg]
-        JSONB,
+        JSON().with_variant(JSONB, "postgresql"),
         nullable=True,
         default=None,
     )

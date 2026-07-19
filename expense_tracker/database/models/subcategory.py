@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import uuid
 
-from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint, Uuid
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from expense_tracker.database.base import BaseModel
@@ -33,7 +33,7 @@ class Subcategory(BaseModel):
     )
 
     category_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        Uuid(as_uuid=True),
         ForeignKey("categories.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
