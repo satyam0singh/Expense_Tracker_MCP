@@ -23,6 +23,7 @@ services:
     build: .
     environment:
       - DATABASE_URL=postgresql+asyncpg://expense_user:expense_password@db:5432/expense_db
+      - DATABASE_URL_SYNC=postgresql+psycopg://expense_user:expense_password@db:5432/expense_db
       - LOG_LEVEL=INFO
     depends_on:
       db:

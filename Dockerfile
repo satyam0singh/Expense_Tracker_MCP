@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir uv
 WORKDIR /app
 
 # Copy dependency definition
-COPY pyproject.toml ./
+COPY pyproject.toml README.md ./
 
 # Install dependencies into the system python environment
 RUN uv pip install --system -e .
