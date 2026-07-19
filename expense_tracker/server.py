@@ -63,10 +63,7 @@ def create_server() -> FastMCP:
     """
     settings = get_settings()
     
-    mcp = FastMCP(
-        settings.app_name,
-        dependencies=["expense-tracker-mcp-server"],
-    )
+    mcp = FastMCP(settings.app_name)
 
     # Register all domains
     register_expense_tools(mcp)
@@ -92,7 +89,7 @@ async def _run_server_async(mcp: FastMCP) -> None:
         
         # Run MCP server (blocks until shutdown)
         logger.info("server_starting", app_name=mcp.name)
-        await mcp.run_stdio_async()
+        await mcp.run_stdio_async(show_banner=False)
         
     except KeyboardInterrupt:
         logger.info("server_interrupted")

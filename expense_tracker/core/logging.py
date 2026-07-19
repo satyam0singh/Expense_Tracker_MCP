@@ -47,7 +47,7 @@ def setup_logging() -> None:
     # Configure stdlib logging (used by SQLAlchemy, Alembic, etc.)
     logging.basicConfig(
         format="%(message)s",
-        stream=sys.stdout,
+        stream=sys.stderr,
         level=getattr(logging, settings.log_level),
     )
 

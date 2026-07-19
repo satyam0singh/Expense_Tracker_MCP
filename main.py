@@ -1,6 +1,7 @@
-def main():
-    print("Hello from expense-tracker-mcp-server!")
+from expense_tracker.server import create_server, main as server_main
 
+# Expose the FastMCP instance globally so `fastmcp dev` can find it
+mcp = create_server()
 
 if __name__ == "__main__":
-    main()
+    server_main()
