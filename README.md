@@ -46,15 +46,48 @@ A production-grade Model Context Protocol (MCP) server for comprehensive persona
 
 ## Usage
 
-### Standalone (Development / Local MCP)
+### Claude Desktop Configuration (Standard MCP)
 
-To start the server communicating via `stdio` (Standard MCP client integration mode):
+To connect this server to **Claude Desktop**, you need to add it to your `claude_desktop_config.json` file. 
 
-```bash
-uv run python -m expense_tracker.server
+*Note: You must set `USER_ID` in the `env` block. If you are sharing a cloud PostgreSQL database, this UUID isolates your expenses from other users.*
+
+```json
+{
+  "mcpServers": {
+    "expense-tracker": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "expense_tracker.server"],
+      "env": {
+        "DATABASE_URL": "postgresql+asyncpg://user:pass@localhost:5432/expense_db",
+        "USER_ID": "123e4567-e89b-12d3-a456-426614174000"
+      }
+    }
+  }
+}
 ```
 
-You can configure an MCP client (e.g., Claude Desktop) with this command.
+## Available Tools
+
+The server registers 17 powerful tools with the LLM context:
+
+1. **`add_expense`** - Add a new expense record (auto-updates the matching budget)
+2. **`update_expense`** - Edit an existing expense (amount, category, date, notes, etc.)
+3. **`delete_expense`** - Soft-delete an expense record
+4. **`search_expenses`** - Search expenses by title/notes, with optional date range
+5. **`list_categories`** - List all expense categories and subcategories
+6. **`set_budget`** - Set a monthly budget for a category
+7. **`update_budget`** - Update an existing budget amount
+8. **`get_budget_status`** - Check budget usage/status for a month
+9. **`get_category_breakdown`** - Spending breakdown by category for a month
+10. **`analyze_spending`** - High-level spending summary for a month
+11. **`get_spending_trends`** - Monthly totals over the last N months
+12. **`add_credit_card`** - Add a credit card to track
+13. **`get_active_cards`** - List active cards with usage/limits
+14. **`record_card_payment`** - Log a payment made toward a card
+15. **`export_csv`** - Export a month's expenses as CSV
+16. **`export_excel`** - Export a month's expenses as Excel
+17. **`export_pdf`** - Export a month's expenses as PDF
 
 ### Docker (Production)
 
