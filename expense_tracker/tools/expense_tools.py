@@ -11,13 +11,13 @@ import uuid
 from fastmcp import FastMCP
 
 from expense_tracker.core.exceptions import AppException
+from expense_tracker.core.constants import get_system_user_id
 from expense_tracker.database.session import get_session
 from expense_tracker.schemas.expense import ExpenseCreate, ExpenseUpdate
 from expense_tracker.services.expense_service import ExpenseService
 from expense_tracker.utils.response import error_response, success_response
 
-# Fixed system user ID for single-user mode. Multi-user requires auth context.
-SYSTEM_USER_ID = uuid.UUID("00000000-0000-0000-0000-000000000001")
+SYSTEM_USER_ID = get_system_user_id()
 
 
 def register_expense_tools(mcp: FastMCP) -> None:

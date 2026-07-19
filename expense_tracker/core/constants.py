@@ -122,6 +122,17 @@ SLOW_QUERY_THRESHOLD_MS: int = 100
 SYSTEM_USER_NAME: str = "system"
 SYSTEM_USER_EMAIL: str = "system@expense-tracker.local"
 
+def get_system_user_id() -> __import__('uuid').UUID:
+    """Get the system user ID from the environment, or use the default fallback."""
+    import os, uuid
+    env_id = os.getenv("USER_ID")
+    if env_id:
+        try:
+            return uuid.UUID(env_id)
+        except ValueError:
+            pass
+    return uuid.UUID("00000000-0000-0000-0000-000000000001")
+
 
 # ── Default Category Taxonomy ────────────────────────────────────
 

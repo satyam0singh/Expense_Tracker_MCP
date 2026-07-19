@@ -18,9 +18,10 @@ from expense_tracker.schemas.credit_card import (
     CreditCardUsageUpdate,
 )
 from expense_tracker.services.credit_card_service import CreditCardService
+from expense_tracker.core.constants import get_system_user_id
 from expense_tracker.utils.response import error_response, success_response
 
-SYSTEM_USER_ID = uuid.UUID("00000000-0000-0000-0000-000000000001")
+SYSTEM_USER_ID = get_system_user_id()
 
 
 def register_credit_card_tools(mcp: FastMCP) -> None:

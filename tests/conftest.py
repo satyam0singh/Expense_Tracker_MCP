@@ -66,21 +66,23 @@ async def session(test_engine: AsyncEngine) -> AsyncGenerator[AsyncSession, None
     )
     
     async with async_session() as session:
-        # Seed system user for tests
-        user = User(
-            id=SYSTEM_USER_ID,
-            username="test_system",
-            email="test@expensetracker.local",
-            display_name="Test User"
-        )
-        session.add(user)
-        
-        # Seed basic categories
-        from expense_tracker.services.category_service import CategoryService
-        service = CategoryService()
-        await service.initialize_default_categories(session)
-        
-        await session.commit()
+        from sqlalchemy import select
+        existing_user = await session.execute(select(User).where(User.id == SYSTEM_USER_ID))
+        if not existing_user.scalar_one_or_none():
+            user = User(
+                id=SYSTEM_USER_ID,
+                username="test_system",
+                email="test@expensetracker.local",
+                display_name="Test User"
+            )
+            session.add(user)
+            
+            # Seed basic categories
+            from expense_tracker.services.category_service import CategoryService
+            service = CategoryService()
+            await service.initialize_default_categories(session)
+            
+            await session.commit()
         
         yield session
         
