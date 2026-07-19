@@ -27,9 +27,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # By default, we override the entrypoint to just tail logs, so the container stays alive.
-    # To run as a real MCP server, use `docker run -i` or hook it up via FastMCP SSE.
-    entrypoint: ["tail", "-f", "/dev/null"]
+    # The MCP Server will use the Dockerfile entrypoint: ["python", "-m", "expense_tracker.server"]
 
 volumes:
   postgres_data:
