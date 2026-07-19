@@ -22,7 +22,7 @@ class CurrencyService(BaseService):
     def __init__(self):
         super().__init__()
         # In a real setup, we might inject an httpx.AsyncClient here.
-        self._api_url = "https://api.frankfurter.app/latest"
+        self._api_url = "https://api.frankfurter.dev/v1/latest"
 
     async def convert(
         self,
