@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: expense_user
+      POSTGRES_PASSWORD: expense_password
+      POSTGRES_DB: expense_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U expense_user -d expense_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # The MCP Server runs on stdio by default.
+  # Running it in a background container isn't very useful for standard MCP,
+  # but this service definition allows you to run migrations easily:
+  # `docker compose run --rm mcp-server alembic upgrade head`
+  mcp-server:
+    build: .
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://expense_user:expense_password@db:5432/expense_db
+      - LOG_LEVEL=INFO
+    depends_on:
+      db:
+        condition: service_healthy
+    # By default, we override the entrypoint to just tail logs, so the container stays alive.
+    # To run as a real MCP server, use `docker run -i` or hook it up via FastMCP SSE.
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+volumes:
+  postgres_data:
