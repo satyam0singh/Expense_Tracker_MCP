@@ -40,6 +40,10 @@ dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
     "pytest-cov>=5.0.0",
+    "pytest-benchmark>=4.0.0",
+    "hypothesis>=6.0.0",
+    "locust>=2.20.0",
+    "mutmut>=2.4.4",
     "factory-boy>=3.3.0",
     "aiosqlite>=0.20.0",
     "black>=24.0.0",
@@ -92,7 +96,19 @@ markers = [
     "unit: Unit tests (no external dependencies)",
     "integration: Integration tests (requires database)",
     "slow: Slow tests",
+    "postgres: Tests that require a Postgres database",
+    "stress: Load testing and stress testing",
+    "e2e: End-to-end tests",
+    "mcp: MCP Protocol compliance tests",
 ]
+
+[tool.coverage.run]
+source = ["expense_tracker"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 95
+show_missing = true
 
 [tool.mypy]
 python_version = "3.12"

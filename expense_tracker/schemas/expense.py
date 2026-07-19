@@ -28,13 +28,20 @@ class ExpenseCreate(BaseSchema):
     
     payment_method: PaymentMethod = Field(default=PaymentMethod.CASH, description="How the expense was paid")
     expense_date: date | None = Field(default=None, description="Date of expense. Defaults to today.")
-    notes: str | None = Field(default=None, description="Optional detailed notes")
+    notes: str | None = Field(default=None, max_length=1000, description="Optional detailed notes")
 
     @field_validator("expense_date", mode="before")
     def set_default_date(cls, v: Any) -> Any:
         """Set default date to today if not provided."""
         if v is None:
             return date.today()
+        return v
+
+    @field_validator("expense_date", mode="after")
+    def validate_future_date(cls, v: date) -> date:
+        """Prevent future dates."""
+        if v > date.today():
+            raise ValueError("Expense date cannot be in the future")
         return v
 
 

@@ -15,9 +15,10 @@ from expense_tracker.database.session import get_session
 from expense_tracker.schemas.budget import BudgetCreate, BudgetUpdate
 from expense_tracker.services.budget_service import BudgetService
 from expense_tracker.utils.datetime_utils import parse_month
+from expense_tracker.core.constants import get_system_user_id
 from expense_tracker.utils.response import error_response, success_response
 
-SYSTEM_USER_ID = uuid.UUID("00000000-0000-0000-0000-000000000001")
+SYSTEM_USER_ID = get_system_user_id()
 
 
 def register_budget_tools(mcp: FastMCP) -> None:
