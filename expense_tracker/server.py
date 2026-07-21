@@ -36,6 +36,16 @@ async def seed_database() -> None:
     logger = get_logger("expense_tracker.seed")
     logger.info("seeding_database")
 
+    from expense_tracker.database.base import Base
+    from expense_tracker.database.session import get_engine
+
+    try:
+        engine = get_engine()
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as exc:
+        logger.warning("auto_create_tables_failed", error=str(exc))
+
     async with get_session() as session:
         # Seed System User
         user = await session.get(User, SYSTEM_USER_ID)
