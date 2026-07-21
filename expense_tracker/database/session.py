@@ -108,7 +108,6 @@ async def init_engine() -> AsyncEngine:
     connect_args = {}
     if "asyncpg" in settings.database_url:
         connect_args["statement_cache_size"] = 0
-        connect_args["prepared_statement_cache_size"] = 0
 
     _engine = create_async_engine(
         settings.database_url,
