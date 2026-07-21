@@ -105,6 +105,11 @@ async def init_engine() -> AsyncEngine:
 
     settings = get_settings()
 
+    connect_args = {}
+    if "asyncpg" in settings.database_url:
+        connect_args["statement_cache_size"] = 0
+        connect_args["prepared_statement_cache_size"] = 0
+
     _engine = create_async_engine(
         settings.database_url,
         pool_size=settings.db_pool_size,
@@ -112,6 +117,7 @@ async def init_engine() -> AsyncEngine:
         pool_timeout=settings.db_pool_timeout,
         pool_pre_ping=True,
         echo=settings.debug,
+        connect_args=connect_args,
     )
 
     _session_factory = async_sessionmaker(
