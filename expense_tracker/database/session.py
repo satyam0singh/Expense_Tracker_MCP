@@ -183,12 +183,15 @@ def get_session_factory() -> async_sessionmaker[AsyncSession]:
     return _session_factory
 
 
+_init_lock = None
+
 @asynccontextmanager
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     """Provide a transactional async database session.
 
     Auto-commits on successful exit, rolls back on exception.
     Sessions should not be long-lived — create one per operation.
+    Lazily initializes the engine and seeds the database if not already done.
 
     Yields:
         An AsyncSession bound to the application engine.
@@ -202,6 +205,18 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
             session.add(expense)
             # Auto-commits on exit
     """
+    global _session_factory, _init_lock
+    if _session_factory is None:
+        if _init_lock is None:
+            import asyncio
+            _init_lock = asyncio.Lock()
+        
+        async with _init_lock:
+            if _session_factory is None:
+                await init_engine()
+                from expense_tracker.server import seed_database
+                await seed_database()
+
     factory = get_session_factory()
     session = factory()
     try:
