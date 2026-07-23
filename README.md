@@ -512,10 +512,6 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for complete ter
         <a href="https://linkedin.com">
           <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
         </a>
-        <a href="https://satyam.dev">
-          <img src="https://satyam.dev">
-          <img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=About.me&logoColor=white" alt="Portfolio"/>
-        </a>
       </td>
     </tr>
   </table>
